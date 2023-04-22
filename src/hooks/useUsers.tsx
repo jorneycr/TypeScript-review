@@ -15,18 +15,31 @@ export const useUsers = () => {
             params: {
                 page: pagRef.current
             }
-        })
+        });
 
         if (resp.data.data.length > 0) {
             setUsuarios(resp.data.data);
-            pagRef.current++;
         } else {
+            pagRef.current--;
             alert('No hay mas registros');
+        }
+    }
+
+    const next = () => {
+        pagRef.current++;
+        cargarUsuarios();
+    }
+
+    const prev = () => {
+        if (pagRef.current > 1) {
+            pagRef.current--;
+            cargarUsuarios();
         }
     }
 
     return {
         usuarios,
-        cargarUsuarios
+        next,
+        prev,
     }
 }

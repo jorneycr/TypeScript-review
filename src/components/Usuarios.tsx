@@ -3,7 +3,7 @@ import { Usuario } from "../interfaces/reqRes.interface";
 
 export const Usuarios = () => {
 
-    const { usuarios, cargarUsuarios } = useUsers();
+    const { usuarios, prev, next } = useUsers();
 
     return (
         <>
@@ -33,9 +33,9 @@ export const Usuarios = () => {
                 </tbody>
             </table>
             <hr />
-            <button className='btn btn-primary' onClick={cargarUsuarios}>Anterior</button>
+            <button className='btn btn-primary' onClick={prev}>Anterior</button>
             &nbsp;
-            <button className='btn btn-primary' onClick={cargarUsuarios}>Siguiente</button>
+            <button className='btn btn-primary' onClick={next}>Siguiente</button>
         </>
     )
 }
