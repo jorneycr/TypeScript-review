@@ -14,9 +14,14 @@ const initialState: AuthState = {
   nombre: ''
 }
 
-type AuthAction = {
-  type: 'logout'
+type LoginPayload = {
+  username: string;
+  nombre: string
 }
+
+type AuthAction =
+  | { type: 'logout' }
+  | { type: 'login', payload: LoginPayload }
 
 const authReducer = (state: AuthState, action: AuthAction): AuthState => {
 
@@ -27,6 +32,13 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
         token: null,
         nombre: '',
         username: ''
+      }
+    case 'login':
+      return {
+        validando: false,
+        token: 'abc',
+        nombre: action.payload.nombre,
+        username: action.payload.username
       }
     default:
       return state
@@ -42,6 +54,14 @@ export const Log = () => {
       dispatch({ type: 'logout' });
     }, 1500);
   }, []);
+
+  const login = () => {
+    dispatch({ type: 'login', payload: { username: 'jlopez', nombre: 'Jorney' } });
+  }
+
+  const logout = () => {
+    dispatch({ type: 'logout' });
+  }
 
   if (state.validando) {
     return (
@@ -67,8 +87,8 @@ export const Log = () => {
 
       {
         (state.token)
-          ? <button className='btn btn-primary'>Login</button>
-          : <button className='btn btn-danger'>Logout</button>
+          ? <button className='btn btn-danger' onClick={logout}>Logout</button>
+          : <button className='btn btn-primary' onClick={login}>Login</button>
       }
     </>
   )
