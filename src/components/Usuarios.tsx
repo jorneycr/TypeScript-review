@@ -1,21 +1,9 @@
-import { useEffect } from "react";
-import { reqResApi } from "../api/reqResApi";
+import { useUsers } from "../hooks/useUsers";
+import { Usuario } from "../interfaces/reqRes.interface";
 
 export const Usuarios = () => {
 
-    const fetchJSONData = async () => {
-        const response = await fetch('https://reqres.in/api/users');
-        const jsonData = await response.json();
-        console.log(jsonData);
-    }
-
-    useEffect(() => {
-        reqResApi.get('/users')
-            .then(resp => {
-                console.log(resp.data.data);                
-            })
-            .catch(console.log)
-    }, [])
+    const { usuarios, cargarUsuarios } = useUsers();
 
     return (
         <>
@@ -30,8 +18,24 @@ export const Usuarios = () => {
                     </tr>
                 </thead>
                 <tbody>
+                    {
+                        usuarios.map(({ avatar, email, first_name, id, last_name }: Usuario) => {
+                            return (
+                                <tr key={id}>
+                                    <td><img style={{ width: 35, borderRadius: 100 }} src={avatar} /></td>
+                                    <td>{first_name} {last_name}</td>
+                                    <td>{email}</td>
+                                </tr>
+                            )
+                        })
+                    }
+
                 </tbody>
             </table>
+            <hr />
+            <button className='btn btn-primary' onClick={cargarUsuarios}>Anterior</button>
+            &nbsp;
+            <button className='btn btn-primary' onClick={cargarUsuarios}>Siguiente</button>
         </>
     )
 }
